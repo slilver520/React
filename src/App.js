@@ -1,6 +1,7 @@
 import Hello from './Hello'
 import './App.css';
 import Wrapper from './Wrapper';
+import Counter from './Counter';
 
 function App() {
   
@@ -10,6 +11,7 @@ function App() {
       <Hello
         name="react"
         color="red"
+        isSpecial
         //주석처리는 이렇게 1
       />
       {/* 주석처리는 이렇게 2 */}
@@ -18,6 +20,7 @@ function App() {
         color="blue"
       />
     </div>
+    <Counter/>
     </Wrapper>
   );
 }
