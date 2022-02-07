@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Hello({color, name, value, isSpecial}){
-    console.log({value})
+    // console.log({value})
     const userName = 'react';
     const style ={
         backgroundColor:'black',

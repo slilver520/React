@@ -7,7 +7,7 @@ function Counter(){
     }
     const onIncrease = () =>{
         setNum(n => n + 1);
-        // n = prevNumber (업데이트 함수 for 최적화)
+        // n = prevNumber (함수형 업데이트 for 성능 최적화)
     }
     const onDecrease = () => {
         setNum(prevNumber => prevNumber - 1);
