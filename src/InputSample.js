@@ -8,7 +8,7 @@ function InputSample(){
 
     const nameInput = useRef();
     const {name, nickname} = inputs;
-    console.log ("inputs : ",inputs)
+    // console.log ("inputs : ",inputs)
     
     const onChange = (e) => {
         const { name, value } = e.target;
