@@ -32,6 +32,8 @@ function InputSample(){
     }; 
     return(
         <div>
+            <b>여러개 input상태 관리하기</b>
+            <br/>
             <input 
                 name="name" 
                 placeholder='이름' 
