@@ -25,17 +25,20 @@ function App() {
     {
         id: 1,
         username: 'yh11',
-        email:'yh@gmail.com'
+        email:'yh@gmail.com',
+        active: true,
     },
     {
         id: 2,
         username:'test',
-        email:'test@test.com'
+        email:'test@test.com',
+        active: false,
     },
     {
         id: 3,
         username:'ex',
-        email:'ex@example.com'
+        email:'ex@example.com',
+        active: false,
     }
   ]);
 
@@ -61,12 +64,22 @@ function App() {
     console.log(nextId.current); //4
     nextId.current += 1;
   }
-  
+
+  //배열에 항목 제거하기
   const onRemove = id => {
     setUsers(users.filter(user => user.id !== id));
-    //각 user객체들을 확인 => 조건 
+    //각 user객체들을 확인(=user을 파라미터로 가져옴) => 조건 
   }
 
+  //배열에 항목 수정하기
+  const onToggle = id => {
+    setUsers(users.map(
+      user => user.id === id
+        ? {...user, active: !user.active}
+        : user
+    ))
+
+  }
   return (
     <Wrapper>
       <>
@@ -76,7 +89,7 @@ function App() {
           onChange={onChange}
           onCreate={onCreate}
         />
-        <UserList users={users} onRemove={onRemove} />
+        <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
       </>
       <InputSample/>
       <div className="gray-box">

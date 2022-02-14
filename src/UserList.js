@@ -1,10 +1,17 @@
 import React from 'react';
 
-function User({user, onRemove}){
-    const {username, email, id} = user;
+function User({user, onRemove, onToggle}){
+    const {username, email, id, active} = user;
     return (
         <div>
-            <b>{username}</b>
+            <b
+                style={{
+                    color: active ? 'olive' : 'black',
+                    cursor: 'pointer',
+                }}
+                onClick={() => onToggle(id)}
+                //새로운 함수를 만들어서 onToggle에다가 (id)를 넣어 호출해줌
+            >{username}</b>
             <span>({email})</span>
             <button 
                 onClick={() => onRemove(id)}
@@ -16,7 +23,7 @@ function User({user, onRemove}){
 
 }
 
-function UserList({users, onRemove}){
+function UserList({users, onRemove, onToggle}){
     return(
         <div>
             <b>배열 렌더링하기</b><br/>
@@ -27,6 +34,7 @@ function UserList({users, onRemove}){
                             user={user} 
                             key={user.id}
                             onRemove={onRemove}
+                            onToggle={onToggle}
                         />)
                 )
             }
