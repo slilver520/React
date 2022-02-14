@@ -8,6 +8,8 @@ function User({user, onRemove}){
             <span>({email})</span>
             <button 
                 onClick={() => onRemove(id)}
+                // 함수 호출이 아니라 함수를 넣어주어야한다
+                //호출하면 랜더링시 remove됨
             >x</button>
         </div>
     );
