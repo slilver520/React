@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useMemo, useCallback} from 'react';
 import Hello from './Hello'
 import './App.css';
 import Wrapper from './Wrapper';
@@ -18,13 +18,17 @@ function App() {
   });
 
   const {username, email} =inputs;
-  const onChange = e => {
+  const onChange = useCallback(e => {
     const {name, value} = e.target;
     setInputs({
       ...inputs,
       [name]:value
     })
-  }
+  }, [inputs]);
+  //useCallback :이전에 만들었던 함수를 새로 만들지 않고 재사용하는 방법
+  //참고로 useCallback도 useMemo와 마찬가지로 두 번째 파라미터에 deps 필요
+  //deps배열에 inputs넣어주면(참고해야할것들) inputs가 바뀔때마다 onChange가 새로 만들어지고 그렇지않다면 기존의 함수 재사용함
+  
   const [users, setUsers] = useState([
     {
         id: 1,
@@ -48,10 +52,11 @@ function App() {
 
   const nextId = useRef(4);
 
-  const onCreate = () => {
+  const onCreate = useCallback(() => {
     const user ={
       id: nextId.current,
-      ...inputs,
+      username,
+      email,
     }
 
     //배열에 항목추가하기 1
@@ -65,9 +70,9 @@ function App() {
       username :'',
       email:''
     })
-    console.log(nextId.current); //4
+    // console.log(nextId.current); //4
     nextId.current += 1;
-  }
+  }, [username, email, users]);
 
   //배열에 항목 제거하기
   const onRemove = id => {
@@ -84,8 +89,9 @@ function App() {
     ))
 
   }
-
-  const count = countActiveUsers(users);
+  //useMemo : 특정 값이 바뀌었을때만 특정 함수를 실행해서 연산을 하도록 처리하고
+  //원하는 값이 바뀌지 않았다면 리렌더링할때 이전에 만들었던 값을 재사용할 수 있게 해줌
+  const count = useMemo(() => countActiveUsers(users), [users]);
 
   return (
     <Wrapper>
