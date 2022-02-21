@@ -19,7 +19,7 @@ function reducer(state, action){
 
 function Counter(){
     // const [num, setNum] = useState(0);
-    const [number, dispatch] = useReducer(reducer, 0);
+    const [number, dispatch] = useReducer(reducer, 0)
     //dispatch: action을 발생시킨다.
     //useReducer(함수, 기본값)
     const style ={
