@@ -6,6 +6,7 @@ import Counter from './Counter';
 import InputSample from './InputSample';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
+import useInputs from './useInputs';
 
 function countActiveUsers(users){
   console.log('활성 사용자 수를 세는 중..')
@@ -13,10 +14,6 @@ function countActiveUsers(users){
 }
 
 const initialState = {
-  inputs: {
-    username :'',
-    email:'',
-  },
   users: [
     {
         id: 1,
@@ -41,15 +38,7 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'CHANGE_INPUT':
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.name]: action.value
-        }
-        //inputs값을 덮어씌워줌(for불변성 유지)
-      };
+    
     case 'CREATE_USER':
       return {
         inputs: initialState.inputs,
@@ -81,23 +70,18 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   //const [현재상태, action을 발생시키는 함수]
 
+  const [form, onChange, reset] = useInputs({
+    username:'',
+    email:'',
+  })
+  const { username, email} = form;
   const nextId = useRef(4);
   const { users } = state;
   //비구조화 할당을 통해 추출
   
-  const { username, email } = state.inputs;
+  //const { username, email } = state.inputs;
   //컴포넌트에게 props로 전달한다.
 
-  const onChange = useCallback(e => {
-    const { name, value } = e.target;
-    //name, value를 e.target에서 추출함
-    dispatch({
-      type: 'CHANGE_INPUT',
-      name,
-      value
-    });
-    //console.log(e.target)
-  }, []);
 
   const onCreate = useCallback(() => {
     dispatch({
@@ -109,7 +93,8 @@ function App() {
       }
     });
     nextId.current += 1;
-  }, [username, email]);
+    reset();
+  }, [username, email, reset]);
 
   const onToggle = useCallback(id => {
     dispatch({

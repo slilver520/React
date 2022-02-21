@@ -1,11 +1,11 @@
 import React from 'react';
 
-function CreateUser({ username, email, onChange, onCreate}){
+const CreateUser = ({ username, email, onChange, onCreate }) => {
     return(
         <div>
             <b>배열에 항목 추가하기</b>
             <br/>
-            <input 
+            <input
                 name="username"
                 placeholder="계정명"
                 onChange={onChange}
@@ -21,9 +21,10 @@ function CreateUser({ username, email, onChange, onCreate}){
         </div>
     )
 }
-export default React.memo(CreateUser,
-    (prevProps, nextProsp) => nextProsp.users === prevProps.users
-);
+export default React.memo(CreateUser);
+// export default React.memo(CreateUser,
+//     (prevProps, nextProsp) => nextProsp.users === prevProps.users
+// );
 //React.memo : props가 바꼈을때만 리렌더링 해줌 (for 최적화)
 
 //React.memo 함수를 사용할 때 두 번째 파라미터에 props are equal 함수를 넣어줄 수 있다.
