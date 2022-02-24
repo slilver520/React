@@ -4,6 +4,7 @@ import { auth } from "fbase";
 
 function App() {
   // console.log(auth.currentUser)
+  
   const [isLoggedIn, setIsLoggedIn] = useState(auth.currentUser);
   return (
     <>

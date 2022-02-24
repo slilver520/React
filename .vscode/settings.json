@@ -1,0 +1,6 @@
+{
+    "prettier.jsxSingleQuote": true,
+"prettier.useTabs": false,
+"prettier.jsonEnable": [], // Will disable Prettier Misc on JSON files
+"prettier.openOutput": false
+}
