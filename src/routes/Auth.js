@@ -9,6 +9,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
+  const [error, setError] = useState('');
 
   const onChange = (event) => {
     const {target: {name, value}} = event;
@@ -35,11 +36,10 @@ const Auth = () => {
       console.log (data);
     } catch(error) {
       // 에러가 발생했을때 동작할 코드 
-      console.log(error)
+      setError(error.message)
     }
   }
-
- 
+  const toggleAccount = () => setNewAccount((prev) => !prev)
 
 
 
@@ -63,7 +63,9 @@ const Auth = () => {
             onChange={onChange}
         />
         <input type='submit' value={newAccount ? 'Create Account' : 'Log In'} />
+        {error}
       </form>
+      <span onClick={toggleAccount}>{newAccount ? 'Sign in' : 'Create Account'}</span>
       <div>
         <button>Email</button>
         <button>Google</button>
