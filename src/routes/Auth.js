@@ -1,8 +1,14 @@
 import React, { useState } from "react";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  } from 'firebase/auth';
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
+  const [newAccount, setNewAccount] = useState(true);
 
   const onChange = (event) => {
     const {target: {name, value}} = event;
@@ -14,16 +20,35 @@ const Auth = () => {
         setpassword(value)
     }
   };
-  const onSubmit = (event) => {
+
+  const onSubmit = async (event) => {
     event.preventDefault();
-  };
+    try {
+      // 에러가 발생할 것 같은 코드
+      let data;
+      const auth = getAuth()
+      if(newAccount) {
+        data = await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        data = await signInWithEmailAndPassword(auth, email, password);
+      }
+      console.log (data);
+    } catch(error) {
+      // 에러가 발생했을때 동작할 코드 
+      console.log(error)
+    }
+  }
+
+ 
+
+
 
   return (
     <div>
       <form onSubmit={onSubmit}>
         <input 
             name="Email"
-            type='text' 
+            type='email' 
             placeholder='Email' 
             required 
             value={email} 
@@ -37,7 +62,7 @@ const Auth = () => {
             value={password}
             onChange={onChange}
         />
-        <input type='submit' value='Log In' />
+        <input type='submit' value={newAccount ? 'Create Account' : 'Log In'} />
       </form>
       <div>
         <button>Email</button>
