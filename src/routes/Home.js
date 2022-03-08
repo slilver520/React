@@ -39,7 +39,6 @@ const Home = ({userObj, isOwner}) => {
                 ...doc.data(),
             }));
             setNweets(nweetArr);
-            console.log(snapshot.docs)
         });
     }, []);
         
