@@ -1,38 +1,68 @@
 import React, { useEffect, useState} from "react";
 import {dbService} from 'fbase';
-import {addDoc, collection, getDocs, query} from 'firebase/firestore';
+import {
+    addDoc,
+    collection,
+    onSnapshot,
+    query,
+    orderBy,
+    } from "firebase/firestore";
 
+//onsnapshot : 데이터베이스의 변화를 실시간으로 알려줌
 
-const Home = () => {
+const Home = ({userObj}) => {
     const [nweet, setNweet] = useState('');
     const [nweets, setNweets] = useState([]);
-    const getNweets = async () => {
-        const q = query(collection(dbService, "nweets"));
-        const querySnapshot = await getDocs(q);
+    // const getNweets = async () => {
+    //     const q = query(collection(dbService, "nweets"));
+    //     const querySnapshot = await getDocs(q);
         
-        querySnapshot.forEach((doc) => {
-            const nweetObj = {
-                ...doc.data(),
-                id: doc.id,
-                }
-            setNweets(prev => [nweetObj, ...prev])
-            //새 트윗, 이전 트윗
-        });
-    };
+    //     querySnapshot.forEach((doc) => {
+    //         const nweetObj = {
+    //             ...doc.data(),
+    //             id: doc.id,
+    //             }
+    //         setNweets(prev => [nweetObj, ...prev])
+    //         //새 트윗, 이전 트윗
+    //     });
+    // };
+    // useEffect(() => {
+    //     const q = query(
+    //         collection(dbService, "nweets"),
+    //         orderBy("createdAt", "desc")
+    //     );
+    //     onSnapshot(q, (snapshot) => {
+    //         const nweetArr = snapshot.docs.map((doc) => ({
+    //             id: doc.id,
+    //             ...doc.data(),
+    //         }));
+    //         setNweets(nweetArr);
+    //     });
+    // }, []);
+
     useEffect(() => {
-        getNweets();
-    },[]);
-
-
-
+        const q = query(
+            collection(dbService, "nweets"),
+        );
+        onSnapshot(q, (snapshot) => {
+            const nweetArr = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setNweets(nweetArr);
+            console.log(snapshot.docs)
+        });
+    }, []);
+        
 
 
     const onSubmit = async(event) => {
         event.preventDefault();
         try{
             const docRef = await addDoc(collection(dbService, 'nweets'),{
-                nweet,
-                createAt:Date.now(),
+                text: nweet,
+                createAt: Date.now(),
+                creatorId: userObj.uid,
             });
             console.log('Document written wid ID:', docRef.id)
         }catch(error){
@@ -45,7 +75,6 @@ const Home = () => {
         //event안에 있는 target안에 있는 value를 달라고하는 것
         setNweet(value)
     }
-console.log('nweets: ',nweets)
     return (
         <div>
             <form onSubmit={onSubmit}>
@@ -61,7 +90,7 @@ console.log('nweets: ',nweets)
             <div>
                 {nweets.map((nweet) => (
                 <div key={nweet.id}>
-                    <h4>{nweet.nweet}</h4>
+                    <h4>{nweet.text}</h4>
                 </div>
                 ))}
             </div>
