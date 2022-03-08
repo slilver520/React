@@ -1,5 +1,6 @@
 import React, { useEffect, useState} from "react";
 import {dbService} from 'fbase';
+import Nweet from "components/Nweet";
 import {
     addDoc,
     collection,
@@ -8,9 +9,10 @@ import {
     orderBy,
     } from "firebase/firestore";
 
+
 //onsnapshot : 데이터베이스의 변화를 실시간으로 알려줌
 
-const Home = ({userObj}) => {
+const Home = ({userObj, isOwner}) => {
     const [nweet, setNweet] = useState('');
     const [nweets, setNweets] = useState([]);
     // const getNweets = async () => {
@@ -26,19 +28,6 @@ const Home = ({userObj}) => {
     //         //새 트윗, 이전 트윗
     //     });
     // };
-    // useEffect(() => {
-    //     const q = query(
-    //         collection(dbService, "nweets"),
-    //         orderBy("createdAt", "desc")
-    //     );
-    //     onSnapshot(q, (snapshot) => {
-    //         const nweetArr = snapshot.docs.map((doc) => ({
-    //             id: doc.id,
-    //             ...doc.data(),
-    //         }));
-    //         setNweets(nweetArr);
-    //     });
-    // }, []);
 
     useEffect(() => {
         const q = query(
@@ -89,9 +78,11 @@ const Home = ({userObj}) => {
             </form>
             <div>
                 {nweets.map((nweet) => (
-                <div key={nweet.id}>
-                    <h4>{nweet.text}</h4>
-                </div>
+                    <Nweet 
+                        key={nweet.id} 
+                        nweetObj={nweet}
+                        isOwner={nweet.creatorId === userObj.uid}
+                    />
                 ))}
             </div>
         </div>
