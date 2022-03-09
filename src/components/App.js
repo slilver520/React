@@ -5,7 +5,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function App() {
 const [init, setInit] = useState(false);
-const [isLoggedIn, setIsLoggedIn] = useState(false);
+// const [isLoggedIn, setIsLoggedIn] = useState(false);
 const [userObj, setUserObj] = useState(null);
 
 useEffect(() => {
@@ -13,19 +13,21 @@ useEffect(() => {
   onAuthStateChanged(auth, (user) => {
     //로그인 시 가장 먼저 호출 됨.onAuthStateChanged
     if (user) {
-      setIsLoggedIn(true);
+      // setIsLoggedIn(true);
       // const uid = user.uid;
       setUserObj(user)
-    } else {
-      setIsLoggedIn(false);
     }
+    //  else {
+    //   setIsLoggedIn(false);
+    // }
       setInit(true);
   });
 }, []);
   return (
     <>
       {init ? (
-        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
+        <AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj} />
+        //<AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
       ) : (
         "Initializing..."
       )}
