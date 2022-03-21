@@ -16,6 +16,7 @@ const Home = ({userObj, isOwner}) => {
     const [nweet, setNweet] = useState('');
     const [nweets, setNweets] = useState([]);
     const [attachment, setAttachment] = useState();
+
     // const getNweets = async () => {
     //     const q = query(collection(dbService, "nweets"));
     //     const querySnapshot = await getDocs(q);
@@ -70,15 +71,19 @@ const Home = ({userObj, isOwner}) => {
         } = event;
         const theFile = files[0];
         const reader = new FileReader();
+
         reader.onloadend = (finishedEvent) => {
             const {
                 currentTarget: {result},
             } = finishedEvent;
             setAttachment(result);
         };
+        //onloadend에 finishedEvent result를 setAttachment로 설정해줌
+
         reader.readAsDataURL(theFile);
     }
-    const onClearAttachment = () => setAttachment(null)
+    const onClearAttachment = () => setAttachment(null);
+    
     return (
         <div>
             <form onSubmit={onSubmit}>
